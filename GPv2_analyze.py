@@ -174,8 +174,9 @@ def PrintFiles(gbook,net,gradebdys):
 		choice = raw_input("Pick one: ")		
 		if( any(x in [choice.upper()] for x in netabrev) ):
 			print("asfdasf")
-			idx = netabrev.index(choice)
-			print("Ok, printing a file for the")
+			idx = netabrev.index(choice.upper())
+			print("Ok, printing a file for the " + choice.upper())
+			FileIO.Single(net,choice.upper())
 		else:
 			print("Invalid choice. Returning to main menu.")
 		
