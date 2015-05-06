@@ -1,0 +1,10 @@
+Open the config file and follow the instructions. Happy grading!
+
+
+
+INFO ON THE BEARFACTS FILE:
+
+The eGrades upload process expects to receive a CSV file with three columns: Student ID (Number only) in Column A, Grade in Column B, Comments (optional) in Column C. Any additional columns in the file being uploaded are ignored.
+
+For each student, enter a grade in Column B and any comments in Column C. NOTE: For students taking a class Pass/Not Pass, a grade of P or NP must be entered. For Satisfactory/Unsatisfactory, enter S or U. Other letter grades (such as A through F) will be rejected.
+When you are done, save the file as a CSV file. Select File>Save As. On a PC, select Save As Type: CSV (comma delimited); on a Mac select Format: CSV and make sure to check the "Append File Extension" box if it is not checked. Remember to make a note of where you saved the file and what you named it!
