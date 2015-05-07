@@ -110,22 +110,22 @@ while True:
 	elif( any(x in [resp.split()[0].upper()] for x in ['D','DISPLAY']) ):
 		if(len(resp.split()) > 1):
 			if(any(x in [resp.split()[1].upper()] for x in ['O','OVERRIDE','OVERRIDES']) ):
-				print("Here's the array of overrides applied thus far: " + str(Overrides))
-				print("Feel free to copy and paste this into the config file.")
+				GUI.PrintOverrides()
 			elif(any(x in [resp.split()[1].upper()] for x in ['P','PRORATE','PRORATES']) ):
 				GUI.DisplayProrates(gbook,netScores)
 			elif(any(x in [resp.split()[1].upper()] for x in letterNames) ):
 				GUI.DisplayLetterGrade(resp.split()[1].upper(),gbook,netScores)
 			elif( any(x in [resp.split()[1].upper()] for x in ['Z','ZERO','ZEROS']) ):
 				gd = raw_input("Enter a category: " + str(netabrev[0:8]) + " : ")
-				if( gd.upper() in netabrev):
+				gd = gd.replace(" ","").upper()
+				if( gd in netabrev):
 					GUI.Zeros(gbook,netScores,gd.upper())
 				else:
 					print("Invalid category.")
 			else:
 				GUI.DisplayStudent(resp.split()[1],gbook,netScores)
 		else:
-			print("Display needs multiple arguments. Try again.")
+			print("Display needs multiple arguments, foo. Try again.")
 	elif( any(x in [resp.upper()] for x in ['B','BORDER','BORDERS']) ):
 		gd = raw_input("Enter a letter grade (A+, B, etc.): ")
 		nm = raw_input("How many points need students be away from earning this grade?: ")
@@ -146,7 +146,5 @@ while True:
 
 
 
-print("Toodles! Hope Alex isn't giving you a hard time.")
-
-#GUI.DisplayStudent("22744867",gbook,netScores)
+print("\n\nToodles! Hope Alex isn't giving you a hard time. It'll all be over soon.")
 

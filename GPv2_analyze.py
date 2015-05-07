@@ -194,7 +194,10 @@ def BearFacts(gbook,net,gradebdys):
 	else:
 		print("OK, returning to main menu.")
 	
-	
+def PrintOverrides():
+	print("Here's the array of overrides applied thus far: " + str(Overrides))
+	print("Feel free to copy and paste this into the config file.")
+				
 def Zeros(gbook,net,cat):
 	idx = netabrev.index(cat)
 	count = 0
