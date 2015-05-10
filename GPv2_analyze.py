@@ -176,17 +176,17 @@ def PrintBorder(gbook,net,curgrade,npoints):
 		if( net[j][8]==letterNames[curidx+1] ):
 			if( curgrade == getLetter( (npoints+net[j][6])/net[j][7],gradebdys) ):
 				# Student will have a different letter grade
-				print(gbook[j][0] + " (" + gbook[j][1] + ")")
+				print(gbook[j][0] + " (" + gbook[j][1] + ") needs " + str(PointsToNext(j,gbook,net)) + " more points")
 				count = count+1
 	if(count==0): print("No students' grade will change.")
-	else: print("\nThere is/are " + str(count) + " student(s) whose grade will change.")
+	else: print("\nThere is/are " + str(count) + " student(s) whose grade will change with " + str(npoints) + " more point(s).")
 			
 def DisplayLetterGrade(curLetter,gbook,net):
 	print('The following students have a grade of ' + curLetter + " : " )
 	count = 0
 	for j in range(0,len(net)):
 		if(curLetter == net[j][8]):
-			print( gbook[j][0] + " (" + gbook[j][1] + ")" )
+			print( gbook[j][0] + " (" + gbook[j][1] + " ; " + str(PointsToNext(j,gbook,net)) + " points needed to increase)" )
 			count = count+1
 	if(count==0): print("No students with that letter grade.")
 	else: print("\nThere are " + str(count) + " students getting a(n) " + curLetter + " in the course.")
@@ -194,7 +194,9 @@ def DisplayLetterGrade(curLetter,gbook,net):
 	
 def PrintFiles(gbook,net):
 	print("Let's print some files.")
-	choice = raw_input("Do you want to print the BearFacts files (type: BEAR) or single-column data (type anything else) or do you want to go back (hit return)? : ")
+	print("Do you want to print the BearFacts files (type: BEAR),") 
+	print("Do you want to print single-column data (type anything else),")
+	choice = raw_input("or do you want to go back (hit return)? : ")
 	if not choice:
 		print "Returning to main menu."
 	elif( any(x in [choice.upper()] for x in ['BEAR','B','BEARFACTS']) ):
@@ -287,6 +289,9 @@ def PrintInfo(gbook,net,numStudents):
 	print("There are " + str(numStudents[0]+numStudents[1]) + " students in the course.")
 	print("    " + str(numStudents[0]) + " are in C10")
 	print("    " + str(numStudents[1]) + " are in L&S")
+	print("")
+	print("Here is a list of people that were on both teams:")
+	print("Alex Filippenko")
 	print("")
 	print("Here are the grade boundaries:")
 	print("Course points assumes the course is out of " + str(totPTs) + " (parentheses show percentages):")
