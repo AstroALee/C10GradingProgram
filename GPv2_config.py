@@ -234,7 +234,7 @@ gradeBoundaries = [162,150,144,137,125,119,111,98,92,87,82,72,0]
 PNPmin = "C-"
 #
 # Identify the minimum letter grade for SF to ... "be satisfactory" 
-SFmin = "C+"
+SFmin = "B-"
 #
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #                          Overrides and Verbosity
@@ -246,7 +246,7 @@ SFmin = "C+"
 # automatically applied at the start of the grading program. Elements of this
 # array are arrays of SID and the new letter grade.
 # Example: Overrides = [ ['24149505',"A-"] , ['24149494',"A-"] ]
-Overrides = [ ]
+Overrides = [ ['23843637','I'] ]
 #
 #
 # You may also not want to re-confirm that everything checks out before reading
@@ -267,4 +267,8 @@ chatty = True
 #
 #
 #
+# Print a line function
+def PLine():
+	print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+
 

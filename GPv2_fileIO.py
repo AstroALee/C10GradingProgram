@@ -10,6 +10,7 @@ from GPv2_config import *
 
 # Reads in and prepares the raw student scores.
 def GetRawData(data,headrow):
+    print "Getting the raw data from the bCourse file."
     f = open(gradebookFile,"rbU")
     cr = csv.reader(f)
     ''' Read in row by row '''
@@ -65,6 +66,7 @@ def GetRawData(data,headrow):
             	data[i][j] = 0.0
             else:
             	data[i][j] = float(data[i][j])
+    print "Done read the raw data from the bCourse file."
         
 
 # Reads in type of grade each student is getting (letter, PNP, SF)

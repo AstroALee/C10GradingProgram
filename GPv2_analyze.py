@@ -204,7 +204,9 @@ def Zeros(gbook,net,cat):
 	print("\nThe following students have 0 course points in the " + nethead[idx] + " category.")
 	for j in range(0,len(net)):
 		if( net[j][idx] == 0.0 ): 
-			print(gbook[j][0] + " (" + gbook[j][1] + ") in section " + gbook[j][2] )
+			if(gbook[j][2] == "No Section"): print(gbook[j][0] + " (" + gbook[j][1] + ") in no section")
+			else: print(gbook[j][0] + " (" + gbook[j][1] + ") in section " + gbook[j][2] + " (" + GSInames[int(gbook[j][2])-101] + ")")
+			if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
 			count = count + 1
 	if(count==0): print("\nNo students with zeros.")
 	else: print("\nThere are " + str(count) + " students with zeros in " + nethead[idx])
@@ -248,5 +250,19 @@ def AlterScore(net,gbook):
 		
 		
 		
-def PrintInfo(gbook,net,gradebdys):
-	print("asdf")
+def PrintInfo(gbook,net,gradebdys,numStudents):
+	print("Here's some course info.")
+	print("")
+	print("There are " + str(numStudents[0]+numStudents[1]) + " students in the course.")
+	print("    " + str(numStudents[0]) + " are in C10")
+	print("    " + str(numStudents[1]) + " are in L&S")
+	print("")
+	print("Here are the grade boundaries:")
+	print("Course points assumes the course is out of " + str(totPTs) + " (parentheses show percentages):")
+	for j in range(0,len(letterNames)):
+		print(letterNames[j] + " requires >= " + str(gradeBoundaries[j]) + " (" + str(100.0*gradeBoundaries[j]/totPTs) + "%)")
+	print("")
+	print("There are " + str(numSections) + " discussion sections.")
+	print("Here are the GSI sections:")
+	for j in range(0,len(GSInames)):
+		print("Section " + str(101+j) + " : " + GSInames[j])

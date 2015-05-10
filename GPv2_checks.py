@@ -6,8 +6,27 @@ import random
 # Import the Config variables
 from GPv2_config import *
 
+
+# Welcome message
+def Welcome():
+	print '''\n\n\n\n\n\n
+	=======================================================================================
+	======================================================================================= 
+	Welcome to the C10 Grading Program, written to determine grades for Alex Filippenko's
+	Astro C10 course. Original program written by Aaron Lee in Spring 2015, further modified 
+	by future Head GSIs. Users of this program should take note of the comments in the config
+	file.
+	
+	If you are using this program for the first time, please consult the config file for
+	instructions. If you need additional help, consult the guidance of past Head GSIs that
+	have used this program.
+	=======================================================================================
+	'''
+
+
+
 # Checks to make sure all the entries in the Config file make sense.
-def ConfigChecks():
+def ConfigChecks(): 
     print "Performing checks on the config file...."
     if not isinstance(gradebookFile,str): sys.exit("Doh! Gradebook file name not valid!")
     if not isinstance(gradeTypeC10File,str): sys.exit("Doh! C10 Bearfacts file not valid!")
@@ -35,7 +54,7 @@ def ConfigChecks():
     for oride in Overrides:
         if(len(oride) != 2): sys.exit("Doh! An override entry is not the proper length!")
     print "Config file checks out! Huzzah."
-
+	
 # Creates an array of floating-point percents instead of course points. Checks
 # to make sure that you don't need over 100% to get a particular grade.
 def PrepGrades(gdbdy):
@@ -65,11 +84,32 @@ def MakeGradeBook(data,types,gbook):
 		gbook.append(curstudg + curstudt[2:4])	
 	# Gradebook is now made!
 	if(chatty):
-		print("These are the remaining entries in the raw gradebook. These students aren't in the BearFacts files.")
+		PLine()
+		PLine()
+		print("\nThese are the remaining entries in the raw gradebook. These names aren't in the BearFacts files!")
+		print("That might mean they are auditing the course. In that case, there will be no grade book entries.")
+		print("These names are in the bCourse grade book, but don't have a single grade entered:")
 		for j in range(0,len(data)):
-			print data[j]
-	
-				
+			if( sum(data[j][3:3+numHW+numQZ+numMT+numLB+1]) == 0 ):
+				print("\nName: " + data[j][0] + " (" + data[j][1] + ")")
+				if(data[j][2]=="No Section"): print("Section: " + data[j][2])
+				else: print("Section: " + data[j][2] + " (GSI: " + GSInames[int(data[j][2])-101] + ")" )
+		print("\nThese are the names that DO HAVE grade book entries. They might have since dropped the")
+		print("course, but some might not realize they are not enrolled in C10!")
+		for j in range(0,len(data)):
+			if( sum(data[j][3:3+numHW+numQZ+numMT+numLB+1]) > 0 ):
+				print("\nName: " + data[j][0] + " (" + data[j][1] + ")")
+				if(data[j][2]=="No Section"): print("Section: " + data[j][2])
+				else: print("Section: " + data[j][2] + " (GSI: " + GSInames[int(data[j][2])-101] + ")" )
+				print("HW Scores: " + str(data[j][3:3+numHW]))
+				print("QZ Scores: " + str(data[j][3+numHW:3+numHW+numQZ]))
+				print("MT Scores: " + str(data[j][3+numHW+numQZ:3+numHW+numQZ+numMT]))
+				print("LB Scores: " + str(data[j][3+numHW+numQZ+numMT:3+numHW+numQZ+numMT+numLB]))
+				print("SP Score : " + str(data[j][3+numHW+numQZ+numMT+numLB]))
+				print("FE Score : " + str(data[j][3+numHW+numQZ+numMT+numLB+1]))
+		PLine()
+		PLine()
+		
 				
 def StudentCheck(gbook,NumStud):
 	print("Here is a sanity check.")
@@ -90,8 +130,8 @@ def StudentCheck(gbook,NumStud):
 	print("FE score : " + str(gbook[j][3+cHWe-cHWs+1+cQZe-cQZs+1+cMTe-cMTs+1+cLBe-cLBs+1+1]))
 	print("Taking the course : " + str(gbook[j][3+cHWe-cHWs+1+cQZe-cQZs+1+cMTe-cMTs+1+cLBe-cLBs+1+1+1]))
 	print("Enrolled in : " + str(gbook[j][3+cHWe-cHWs+1+cQZe-cQZs+1+cMTe-cMTs+1+cLBe-cLBs+1+1+1+1]))
-	getID = raw_input("\nManually look to see if this is correct. Is it? (Y/Yes): ")
-	if( any(x in [getID.upper()] for x in ['Y', 'YES', 'y', 'yes','Yes']) ):
+	getID = raw_input("\nManually look to see if this is correct. Is it? (Y/Yes or hit return): ")
+	if( (any(x in [getID.upper()] for x in ['Y', 'YES', 'y', 'yes','Yes'])) or not getID ):
 		print("OK, checks out! Let's move on.")
 	else:
 		sys.exit("Well, go figure out why!")
