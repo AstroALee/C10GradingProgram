@@ -129,7 +129,7 @@ def GetGradeType(data,types,numStudents):
 	
 	
 	
-def BearFactsFinal(gbook,net,gradebdys):
+def BearFactsFinal(gbook,net):
 	fc10 = open("C10BearFacts_final.csv","w")
 	flas = open("LaSBearFacts_final.csv","w")
 	c10Printed = 0
@@ -148,7 +148,7 @@ def BearFactsFinal(gbook,net,gradebdys):
 				curGrade = "F"
 		if(gbook[j][23]=="C10"):
 			#print this in C10 file
-			fc10.write( gbook[j][0] + " , " + curGrade + '\n' )
+			fc10.write( '''"''' + gbook[j][0] + '''"''' + " , " + curGrade + '\n' )
 			c10Printed = c10Printed + 1
 		elif(gbook[j][23]=="LS"):
 			#print this in LS file
@@ -165,7 +165,7 @@ def Single(net,choice):
 	fname = singlecolumnhead + "_" + choice + ".txt"
 	f = open(fname,"w")
 	choice2 = raw_input("Do you want to round the points to the nearest integer before printing? (Y/YES) : ")
-	if( any(x in [choice2.upper()] for x in ['Y','YES']) ):
+	if( not choice2 or any(x in [choice2.upper()] for x in ['Y','YES']) ):
 		rnd = True
 		print("Ok, rounding data before printing! (Note: the gradebook is not being changed!")
 	else:

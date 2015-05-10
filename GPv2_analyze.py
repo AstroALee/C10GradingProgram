@@ -6,6 +6,22 @@ import numpy as np
 #nethead = ["Homeworks","Quizzes","Midterms","Labs","Participation","Final Exam","Total Course Points","Max Possible Course Points","Letter Grade"]
 #netabrev= ["HW","QZ","MT","LB","SP","FE","CP","MCP","LG"]
 
+
+def PointsToNext(curID,gbook,net):
+	if not net[curID][8] in letterNames: 
+		return 0
+	curGradeIDX = letterNames.index(net[curID][8])
+	nextIDX = curGradeIDX-1
+	if(nextIDX < 0):
+		# They already have an A+ or whatever the highest possible grade is 
+		needpoints = 0
+	else:
+		# They can improve
+		percentneed = gradebdys[nextIDX] - net[curID][6]/net[curID][7]
+		needpoints = percentneed*net[curID][7]
+	return needpoints
+
+
 def DisplayStudent(curID,gbook,net):
 	HWs = 3
 	HWe = 3+numHW
@@ -25,6 +41,7 @@ def DisplayStudent(curID,gbook,net):
 			break
 	if(curLine == -1): print("Hmm, can't find a student with that ID. Double check and try again.")
 	else:
+		# Found the student
 		print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 		print("Name: " + gbook[curLine][0] + " ; SID: " + gbook[curLine][1])
 		if(gbook[curLine][2]=="No Section"):
@@ -49,7 +66,10 @@ def DisplayStudent(curID,gbook,net):
 			elif(nethead[i]=="Max Possible Course Points"): print(nethead[i] + ":\t" + str(net[curLine][i]))
 			else: print(nethead[i] + ":\t\t" + str(net[curLine][i]))
 		print(nethead[8] + ":\t\t" + str(net[curLine][8]) + " (" + str(100*net[curLine][6]/net[curLine][7]) + "%)" )
-		if(net[curLine][10]=='Y'): print("GRADE HAS BEEN OVERWRITTEN!")
+		if(net[curLine][10]=='Y'): 
+			print("GRADE HAS BEEN OVERWRITTEN!")
+		else: 
+			print("This student is " + str(PointsToNext(curLine,gbook,net)) + " point(s) away from the next letter grade.") 
 		print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 		
 		
@@ -89,31 +109,41 @@ def PrintStats(gbook,net):
 	npd = np.array(d)
 	# Because of prorates, the mean total course points is not meaningful. Everything really
 	# depends on the mean percent. For a quick estimate, you can multiply the percent by totPts
-	print("Percent mean = " + str(npd.mean()) + " (std = " + str(npd.std()) + ")")
+	print("Percent mean = " + str(npd.mean()) + " (std = " + str(npd.std()) + ")\n")
 	
 	
-	print '\n\nThe number of students with 0 points in each category:'
+	print 'The number of students with 0 points in each category:'
 	print ("(Note: 0 total course points means they have no grades entered!)")
 	for i in range(7):
 	    ntemp = 0
 	    for j in range(0, Nstud):
 	        if net[j][i] == 0:
 	            ntemp = ntemp + 1
-	    print nethead[i] + ' has ' + str(ntemp) + ' out of ' + str(Nstud) + '  (' + str(1.0*ntemp/Nstud*100) + '%)'
-	print '\n'
-	
-	print("Tallies:")
+	    print nethead[i] + ' :\t ' + str(ntemp) + ' out of ' + str(Nstud) + '  (' + str(1.0*ntemp/Nstud*100) + '%)'
+	print("\n")
+		
+	print("The number of students getting a/an:")
 	for i in range(len(letterNames)):
 		ntemp = 0 
 		for j in range(0,Nstud): 
 			if(net[j][8]==letterNames[i]): ntemp = ntemp+1
-		print("Num. of students getting an " + str(letterNames[i]) + " : " + str(ntemp) + " out of " + str(Nstud) + '  (' + str(1.0*ntemp/Nstud*100) + '%)' )
+		print(str(letterNames[i]) + " \t: " + str(ntemp) + " out of " + str(Nstud) + '  (' + str(1.0*ntemp/Nstud*100) + '%)' )
 	print(" ")	
 	
+	
+	print("The number of students <= 1 point away from getting a/an:")
+	for i in range(0,len(letterNames)-1):
+		ntemp = 0
+		for j in range(0,Nstud):
+			if(net[j][10] != 'Y' and net[j][8]==letterNames[i+1]):
+				if(PointsToNext(j,gbook,net) < 1.0): ntemp = ntemp + 1
+		print(str(letterNames[i]) + " \t: " + str(ntemp) + " out of " + str(Nstud) + '  (' + str(1.0*ntemp/Nstud*100) + '%)' )
+	
+	print(" ")
 	ntemp = 0
 	for j in range(0,Nstud):
 		if(net[j][10]=='Y'): ntemp = ntemp+1
-	print("Num. of altered scores: " + str(ntemp))
+	print("Num. of manually altered scores: " + str(ntemp))
 	
 	
 	print("\n=================================")
@@ -137,7 +167,7 @@ def getLetter(curGrade,gradebdys):
 	return retGrade
 	
 		
-def PrintBorder(gbook,net,curgrade,npoints,gradebdys):
+def PrintBorder(gbook,net,curgrade,npoints):
 	#First find the boundary corresponding to the curgrade
 	curidx = letterNames.index(curgrade)
 	count = 0
@@ -162,25 +192,26 @@ def DisplayLetterGrade(curLetter,gbook,net):
 	else: print("\nThere are " + str(count) + " students getting a(n) " + curLetter + " in the course.")
 		
 	
-def PrintFiles(gbook,net,gradebdys):
+def PrintFiles(gbook,net):
 	print("Let's print some files.")
-	choice = raw_input("Do you want to print the BearFacts files (BEAR) or single-column data? : ")
-	if( any(x in [choice.upper()] for x in ['BEAR','B','BEARFACTS']) ):
-		BearFacts(gbook,net,gradebdys)
+	choice = raw_input("Do you want to print the BearFacts files (type: BEAR) or single-column data (type anything else) or do you want to go back (hit return)? : ")
+	if not choice:
+		print "Returning to main menu."
+	elif( any(x in [choice.upper()] for x in ['BEAR','B','BEARFACTS']) ):
+		BearFacts(gbook,net)
 	else:
 		print("Either you mistyped or you don't want a BearFacts file. ")
 		print("So I'll assume you want a single-column file.")
 		print("What category? " + str(netabrev))
 		choice = raw_input("Pick one: ")		
 		if( any(x in [choice.upper()] for x in netabrev) ):
-			print("asfdasf")
 			idx = netabrev.index(choice.upper())
 			print("Ok, printing a file for the " + choice.upper())
 			FileIO.Single(net,choice.upper())
 		else:
 			print("Invalid choice. Returning to main menu.")
 		
-def BearFacts(gbook,net,gradebdys):
+def BearFacts(gbook,net):
 	print("Let's prepare to print the files for BearFacts")
 	print("The idea here is that it'll open up the BearFacts files it read in earlier again,")
 	print("this time filling in the grade column with the appropriate grade.")
@@ -190,7 +221,7 @@ def BearFacts(gbook,net,gradebdys):
 	choice = raw_input("Would you like to make the BearFacts files now? (Yes/Y) : ")
 	if( any(x in [choice.upper()] for x in ['Y','YES']) ):
 		print("OK, here we go....")
-		FileIO.BearFactsFinal(gbook,net,gradebdys)
+		FileIO.BearFactsFinal(gbook,net)
 	else:
 		print("OK, returning to main menu.")
 	
@@ -250,7 +281,7 @@ def AlterScore(net,gbook):
 		
 		
 		
-def PrintInfo(gbook,net,gradebdys,numStudents):
+def PrintInfo(gbook,net,numStudents):
 	print("Here's some course info.")
 	print("")
 	print("There are " + str(numStudents[0]+numStudents[1]) + " students in the course.")

@@ -42,7 +42,6 @@ print "give you grade boundaries in terms of course points, assuming no prorates
 print "order to make the same boundaries apply to students with prorates, we will first"
 print "convert the boundaries into percentages. It is these percentages that will be use"
 print "to determine everyone's letter grade, prorate or not."
-gradebdys = [0.0]*len(gradeBoundaries)
 print ""
 CheckBalance.PrepGrades(gradebdys)
 print ""
@@ -118,7 +117,7 @@ print("No let's do some calculations.")
 print("Calculating course points from gradebook...")
 for i in range(0,numStud): Calculate.CoursePoints(gbook[i],netScores[i])
 print("... Course Points calculated. Calculating letter grades...")
-for i in range(0,numStud): Calculate.LetterGrades(netScores[i],gradebdys,letterNames)
+for i in range(0,numStud): Calculate.LetterGrades(netScores[i],letterNames)
 print("... Letter Grades calculated. Note that we will not convert grades to PNP or SF")
 print("until we print the final files for BearFacts. Anyway, now applying overrides...")
 Calculate.ApplyOverrides(netScores,gbook)
@@ -139,17 +138,17 @@ while True:
 	PLine()
 	print("\nWelcome to the main menu.")
 	resp = raw_input("What should we do?: ")
-	if not resp:
+	if not resp.replace(" ",""):
 		# Entered nothing.
 		print("Type O to see the available options.")
 	elif( any(x in [resp.upper()] for x in ['E','Q','QUIT','EXIT']) ):
 		break
 	elif( any(x in [resp.upper()] for x in ['I','INFO']) ):
-		GUI.PrintInfo(gbook,netScores,gradebdys,numStudents)
+		GUI.PrintInfo(gbook,netScores,numStudents)
 	elif( any(x in [resp.upper()] for x in ['O','OPTIONS','OPTION']) ):
 		GUI.PrintOptions()
 	elif( any(x in [resp.upper()] for x in ['P','PRINT','BEARFACTS']) ):
-		GUI.PrintFiles(gbook,netScores,gradebdys)
+		GUI.PrintFiles(gbook,netScores)
 	elif( any(x in [resp.upper()] for x in ['S','STATS','STAT']) ):
 		GUI.PrintStats(gbook,netScores)	
 	elif( any(x in [resp.upper()] for x in ['A','ALTER']) ):
@@ -174,6 +173,7 @@ while True:
 		else:
 			print("Display needs multiple arguments, foo. Try again.")
 	elif( any(x in [resp.upper()] for x in ['B','BORDER','BORDERS']) ):
+		print("Let's see how many students are just shy of earning the following grade.")
 		gd = raw_input("Enter a letter grade (A+, B, etc.): ")
 		nm = raw_input("How many points need students be away from earning this grade?: ")
 		gd = gd.upper()
@@ -182,7 +182,7 @@ while True:
 				if(gd==letterNames[-1]):
 					print("Borderline from getting an " + letterNames[-1] + "? That's weird.")
 				else:
-					GUI.PrintBorder(gbook,netScores,gd,int(nm),gradebdys)
+					GUI.PrintBorder(gbook,netScores,gd,int(nm))
 			else:
 				print("Invalid number of boundary points.")
 		else:

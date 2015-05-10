@@ -105,11 +105,11 @@ def calc_CP(net):
 	# net[6] = round(net[6])
 	
 	
-def LetterGrades(net,bdy,letterNames):
+def LetterGrades(net,letterNames):
 	# Percent Score:
 	percent = net[6]/net[7]
-	for i in range(0,len(bdy)):
-		if( percent >= bdy[i] ):
+	for i in range(0,len(gradebdys)):
+		if( percent >= gradebdys[i] ):
 			net[8] = letterNames[i]
 			break		
 	

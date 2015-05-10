@@ -41,7 +41,7 @@
 #
 #
 # Here are some global variable arrays we'll need. Don't alter these.
-nethead = ["Homeworks","Quizzes","Midterms","Labs","Participation","Final Exam","Total Course Points","Max Possible Course Points","Letter Grade"]
+nethead = ["Homeworks","Quizzes","Midterms","Labs   ","Participation","Final Exam","Total Course Points","Max Possible Course Points","Letter Grade"]
 netabrev= ["HW","QZ","MT","LB","SP","FE","CP","MCP","LG"]
 #
 #
@@ -257,7 +257,7 @@ confident = True
 #
 # You can also have more outputs to the screen when preparing the data. If you want
 # a chatty program, let it know so here  (boolean: True or False).
-chatty = True
+chatty = False
 #
 #
 #
@@ -271,4 +271,4 @@ chatty = True
 def PLine():
 	print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 
-
+gradebdys = [0.0]*len(gradeBoundaries)
