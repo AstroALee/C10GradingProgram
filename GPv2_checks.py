@@ -83,7 +83,7 @@ def MakeGradeBook(data,types,gbook):
 		# Now make an entry in the gradebook that combines these two arrays
 		gbook.append(curstudg + curstudt[2:4])	
 	# Gradebook is now made!
-	if(chatty):
+	if(True):
 		PLine()
 		PLine()
 		print("\nThese are the remaining entries in the raw gradebook. These names aren't in the BearFacts files!")
