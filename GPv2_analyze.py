@@ -234,13 +234,29 @@ def PrintOverrides():
 def Zeros(gbook,net,cat):
 	idx = netabrev.index(cat)
 	count = 0
+	sort = raw_input("Sort by section? (Y/Yes) : ")
+	if not sort: sort = "N"
 	print("\nThe following students have 0 course points in the " + nethead[idx] + " category.")
-	for j in range(0,len(net)):
-		if( net[j][idx] == 0.0 ): 
-			if(gbook[j][2] == "No Section"): print(gbook[j][0] + " (" + gbook[j][1] + ") in no section")
-			else: print(gbook[j][0] + " (" + gbook[j][1] + ") in section " + gbook[j][2] + " (" + GSInames[int(gbook[j][2])-101] + ")")
-			if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
-			count = count + 1
+	if( any(x in [sort.upper()] for x in ['Y','YES']) ):
+		for i in range(101,101+len(GSInames)):
+			for j in range(0,len(net)):
+				if( net[j][idx]==0.0 and gbook[j][2]==str(i) ):
+					print(gbook[j][0] + " (" + gbook[j][1] + ") in section " + gbook[j][2] + " (" + GSInames[int(gbook[j][2])-101] + ")")
+					if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
+					count = count + 1
+			print("")
+		for j in range(0,len(net)):
+			if( net[j][idx]==0.0 and gbook[j][2]=="No Section"):
+				print(gbook[j][0] + " (" + gbook[j][1] + ") in no section")
+				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
+				count = count + 1
+	else:	
+		for j in range(0,len(net)):
+			if( net[j][idx] == 0.0 ): 
+				if(gbook[j][2] == "No Section"): print(gbook[j][0] + " (" + gbook[j][1] + ") in no section")
+				else: print(gbook[j][0] + " (" + gbook[j][1] + ") in section " + gbook[j][2] + " (" + GSInames[int(gbook[j][2])-101] + ")")
+				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
+				count = count + 1
 	if(count==0): print("\nNo students with zeros.")
 	else: print("\nThere are " + str(count) + " students with zeros in " + nethead[idx])
 		
