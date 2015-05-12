@@ -301,9 +301,9 @@ def AlterScore(net,gbook):
 		check = raw_input("Now, do you want to alter their grade? (YES/Y) : ")
 		if( any(x in [check.upper()] for x in ['Y','YES']) ):
 			print("What do you want to change their grade to?")
-			print("Chose from : " + str(letterNames))
+			print("Chose from : " + str(letterNames+peskyletterNames) )
 			check = raw_input("New grade : ")
-			if( any(x in [check.upper()] for x in letterNames) ):
+			if( any(x in [check.upper()] for x in letterNames+peskyletterNames) ):
 				print("You want to change the grade for " + gbook[idx][0] + " from " + net[idx][8] + " to " + check.upper())
 				confirm = raw_input("Is this correct? (YES/Y) : ")
 				if( any(x in [confirm.upper()] for x in ['Y','YES']) ):
