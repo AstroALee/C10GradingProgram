@@ -159,6 +159,9 @@ while True:
 				GUI.PrintOverrides()
 			elif(any(x in [resp.split()[1].upper()] for x in ['P','PRORATE','PRORATES']) ):
 				GUI.DisplayProrates(gbook,netScores)
+			elif(any(x in [resp.split()[1].upper()] for x in ['R','ROSTER','ROOSTER']) ):
+				if(resp.split()[1].upper()=="ROOSTER"): print("\n\nCUCKOOOOO!\n\n")
+				GUI.DisplayRoster(gbook,netScores)
 			elif(any(x in [resp.split()[1].upper()] for x in peskyletterNames+letterNames) ):
 				GUI.DisplayLetterGrade(resp.split()[1].upper(),gbook,netScores)
 			elif( any(x in [resp.split()[1].upper()] for x in ['Z','ZERO','ZEROS']) ):

@@ -79,6 +79,7 @@ def PrintOptions():
 	print("        an SID to show the gradebook entry for that student.")
 	print("        an O to display an array of all the overrides applied thus far.")
 	print("        a  P to display all the students with prorated scores.")
+	print("        an R to display a new menu to print student rosters for a given section (or see students not in a section).")
 	print("        a  Z to enter a menu to display students with zero course points in a particular category.")
 	print("        a letter grade (A+, B, C-, etc.) to display all the students getting that grade.")
 	print("Type B or BORDER to enter a new menu regarding borderline students.")
@@ -212,6 +213,32 @@ def PrintFiles(gbook,net):
 			FileIO.Single(net,choice.upper())
 		else:
 			print("Invalid choice. Returning to main menu.")
+	
+def DisplayRoster(gbook,net):
+	print("Let's display the roster of students for particular sections.")
+	choice = raw_input("Enter a section number (101, 103, etc.) or 'None' for those not in a section: ")
+	choice2 = raw_input("Display final grades for each student? (Y/YES): ")
+	if not choice2: pgrade = False
+	elif( any(x in [choice2.upper().replace(" ","")] for x in ['Y','YES']) ): pgrade = True
+	else: pgrade = False
+	
+	if ( (not choice) or (any(x in [choice.replace(" ","").upper()] for x in ['NO','NONE'])) ):
+		print("\nHere are the students no enrolled in a discussion section")
+		for j in range(0,len(net)):
+			if( gbook[j][2]=="No Section"):
+				pme = gbook[j][0] + " (" + gbook[j][1] + ")"
+				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + ")" 
+				print( pme )
+	elif( int(choice.replace(" ","")) in range(101,101+numSections) ):
+		curSec = int(choice.replace(" ",""))
+		print("Here are the students in section " + str(curSec) + " (GSI: " + GSInames[curSec-101] + ")")
+		for j in range(0,len(net)):
+			if( gbook[j][2]==str(curSec) ):
+				pme = gbook[j][0] + " (" + gbook[j][1] + ")"
+				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + ")"
+				print(pme)
+	else:
+		print("Invalid section number. Womp. Returning to main menu.")
 		
 def BearFacts(gbook,net):
 	print("Let's prepare to print the files for BearFacts")
@@ -237,7 +264,7 @@ def Zeros(gbook,net,cat):
 	sort = raw_input("Sort by section? (Y/Yes) : ")
 	if not sort: sort = "N"
 	print("\nThe following students have 0 course points in the " + nethead[idx] + " category.")
-	if( any(x in [sort.upper()] for x in ['Y','YES']) ):
+	if( any(x in [sort.upper().replace(" ","")] for x in ['Y','YES']) ):
 		for i in range(101,101+len(GSInames)):
 			for j in range(0,len(net)):
 				if( net[j][idx]==0.0 and gbook[j][2]==str(i) ):
