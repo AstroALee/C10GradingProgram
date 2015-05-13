@@ -229,6 +229,7 @@ def DisplayRoster(gbook,net):
 				pme = gbook[j][0] + " (" + gbook[j][1] + ")"
 				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + ")" 
 				print( pme )
+				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
 	elif( int(choice.replace(" ","")) in range(101,101+numSections) ):
 		curSec = int(choice.replace(" ",""))
 		print("Here are the students in section " + str(curSec) + " (GSI: " + GSInames[curSec-101] + ")")
@@ -237,6 +238,7 @@ def DisplayRoster(gbook,net):
 				pme = gbook[j][0] + " (" + gbook[j][1] + ")"
 				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + ")"
 				print(pme)
+				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
 	else:
 		print("Invalid section number. Womp. Returning to main menu.")
 		
