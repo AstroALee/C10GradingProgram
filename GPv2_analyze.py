@@ -97,7 +97,16 @@ def PrintStats(gbook,net):
 	Nstud = len(net)
 	Nstudf = float(len(net))
 	
+	# Determines who is taking it PNP first
+	PNPnum = 0
+	SFnum = 0
+	for j in range(0,len(net)):
+		if(gbook[j][22]=="PN"): PNPnum = PNPnum + 1
+		elif(gbook[j][22]=="SF"): SFnum = SFnum+1 
+		
 	print("Number of students in the coures: " + str(Nstud) + '\n')
+	print("Number of students taking PNP: " + str(PNPnum) + ' (' + str(float(PNPnum)/Nstudf*100) + '%)')
+	print("Number of students taking SF : " + str(SFnum) + ' (' + str(float(SFnum)/Nstudf*100) + '%)\n')
 	
 	print("Regarding Course Points:")
 	for i in range(0,6):
@@ -206,9 +215,11 @@ def PrintFiles(gbook,net):
 		print("Either you mistyped or you don't want a BearFacts file. ")
 		print("So I'll assume you want a single-column file.")
 		print("What category? " + str(netabrev))
+		print("You can also type SEC if you want the sum of HW + QZ + SP")
 		choice = raw_input("Pick one: ")		
-		if( any(x in [choice.upper()] for x in netabrev) ):
-			idx = netabrev.index(choice.upper())
+		if( any(x in [choice.upper()] for x in netabrev + ['SEC']) ):
+			if(choice.upper() == 'SEC'): idx = -1
+			else: idx = netabrev.index(choice.upper())
 			print("Ok, printing a file for the " + choice.upper())
 			FileIO.Single(net,choice.upper())
 		else:
@@ -222,25 +233,33 @@ def DisplayRoster(gbook,net):
 	elif( any(x in [choice2.upper().replace(" ","")] for x in ['Y','YES']) ): pgrade = True
 	else: pgrade = False
 	
+	info1 = "Letter Grade = taking for letter grade, PN = taking PNP, SF = taking SF"
+	info2 = "Using current grade boundaries, letter grade and number of points to next score is shown at end."
+	
 	if ( (not choice) or (any(x in [choice.replace(" ","").upper()] for x in ['NO','NONE'])) ):
 		print("\nHere are the students no enrolled in a discussion section")
 		for j in range(0,len(net)):
 			if( gbook[j][2]=="No Section"):
-				pme = gbook[j][0] + " (" + gbook[j][1] + ")"
-				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + ")" 
+				pme = gbook[j][0] + " (" + gbook[j][1] + " ; " + str(gbook[j][22]) + ")"
+				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + " ; " + str(PointsToNext(j,gbook,net)) + " to next grade)" 
 				print( pme )
 				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
+		print('\n'+info1)
+		print(info2)
 	elif( int(choice.replace(" ","")) in range(101,101+numSections) ):
 		curSec = int(choice.replace(" ",""))
-		print("Here are the students in section " + str(curSec) + " (GSI: " + GSInames[curSec-101] + ")")
+		print("\nHere are the students in section " + str(curSec) + " (GSI: " + GSInames[curSec-101] + ")")
 		for j in range(0,len(net)):
 			if( gbook[j][2]==str(curSec) ):
-				pme = gbook[j][0] + " (" + gbook[j][1] + ")"
-				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + ")"
+				pme = gbook[j][0] + " (" + gbook[j][1] + " ; " + str(gbook[j][22]) + ")"
+				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + " ; " + str(PointsToNext(j,gbook,net)) + " to next grade)"
 				print(pme)
 				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
+		print('\n'+info1)
+		print(info2)
 	else:
 		print("Invalid section number. Womp. Returning to main menu.")
+	
 		
 def BearFacts(gbook,net):
 	print("Let's prepare to print the files for BearFacts")
@@ -329,11 +348,19 @@ def AlterScore(net,gbook):
 		
 		
 def PrintInfo(gbook,net,numStudents):
+	# Determines who is taking it PNP first
+	PNPnum = 0
+	SFnum = 0
+	for j in range(0,len(net)):
+		if(gbook[j][22]=="PN"): PNPnum = PNPnum + 1
+		elif(gbook[j][22]=="SF"): SFnum = SFnum+1 
 	print("Here's some course info.")
 	print("")
 	print("There are " + str(numStudents[0]+numStudents[1]) + " students in the course.")
 	print("    " + str(numStudents[0]) + " are in C10")
 	print("    " + str(numStudents[1]) + " are in L&S")
+	print("    " + str(PNPnum) + " are taking it PNP.")
+	print("    " + str(SFnum)  + " are taking it SF.")
 	print("")
 	print("Here is a list of people that were on both teams:")
 	print("Alex Filippenko")

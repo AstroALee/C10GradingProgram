@@ -161,7 +161,8 @@ def BearFactsFinal(gbook,net):
 	print("C10 students: " + str(c10Printed) + " and in L and S : " + str(lasPrinted))
 		
 def Single(net,choice):
-	idx = netabrev.index(choice)
+	if(choice=='SEC'): idx = -1
+	else: idx = netabrev.index(choice)
 	fname = singlecolumnhead + "_" + choice + ".txt"
 	f = open(fname,"w")
 	choice2 = raw_input("Do you want to round the points to the nearest integer before printing? (Y/YES) : ")
@@ -171,11 +172,16 @@ def Single(net,choice):
 	else:
 		rnd = False	
 		print("Ok, not rounding the data before printing!")
+		
 	for j in range(0,len(net)):
-		if(rnd):
-			f.write( str(int(round(net[j][idx]))) + '\n')
-		else:
-			f.write( str(net[j][idx]) + '\n')
+	
+		printnum = 0
+		if(idx==-1): printnum = net[j][0] + net[j][1] + net[j][4]
+		else: printnum = net[j][idx]
+		
+		if(rnd): printnum = int(round(printnum))
+		
+		f.write( str(printnum) + '\n')
 	f.close()
 	print("Finished printing the file " + str(fname))
 
