@@ -148,11 +148,11 @@ def BearFactsFinal(gbook,net):
 				curGrade = "F"
 		if(gbook[j][23]=="C10"):
 			#print this in C10 file
-			fc10.write( gbook[j][1] + " , " + curGrade + " , " + gbook[j][0] + '\n' )
+			fc10.write( gbook[j][1] + " , " + curGrade + " , " + gbook[j][0] +  " , " + net[j][6] + " , " + net[j][7] + '\n' )
 			c10Printed = c10Printed + 1
 		elif(gbook[j][23]=="LS"):
 			#print this in LS file
-			flas.write( gbook[j][1] + " , " + curGrade + " , " + gbook[j][0] + '\n' )
+			flas.write( gbook[j][1] + " , " + curGrade + " , " + gbook[j][0] +  " , " + net[j][6] + " , " + net[j][7] + '\n' )
 			lasPrinted = lasPrinted + 1
 		else:
 			sys.exit("Doesn't know which class " + gbook[j][0] + " (" + gbook[j][1] + ") is in!")
