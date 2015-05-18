@@ -227,7 +227,7 @@ peskyletterNames = ['P','N','S','I']
 # get an A+. If the second entry is 'A', the second number here is the minimum
 # number of course points needed to get an A, assuming they are not getting an A+
 #
-gradeBoundaries = [162,150,144,137,125,119,111,98,92,87,82,72,0]
+gradeBoundaries = [162,150,144,137,125,119,114,102,92,87,82,73,0]
 #
 #
 # Identify the minimum letter grade for PNP to pass
