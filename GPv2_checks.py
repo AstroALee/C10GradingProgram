@@ -81,8 +81,9 @@ def MakeGradeBook(data,types,gbook):
 		if(jsave == -1): sys.exit("Uh oh, we couldn't locate student " + str(curstudt[1]) + " in the raw gradebook!")
 		else: data.pop(jsave)
 		# Now make an entry in the gradebook that combines these two arrays
-		gbook.append(curstudg + curstudt[2:4])	
-	# Gradebook is now made!
+		gbook.append(curstudg + curstudt[2:4])
+	print gbook
+    # Gradebook is now made!
 	if(True):
 		PLine()
 		PLine()

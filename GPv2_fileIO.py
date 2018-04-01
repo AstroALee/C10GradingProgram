@@ -136,21 +136,21 @@ def BearFactsFinal(gbook,net):
 	lasPrinted = 0
 	for j in range(0,len(net)):
 		curGrade = net[j][8]
-		if(gbook[j][22]=="PN" and net[j][10]=="N"): 
+		if(gbook[j][3+numAssign]=="PN" and net[j][10]=="N"): 
 			if( letterNames.index(curGrade) <= letterNames.index(PNPmin) ):
 				curGrade = "P"
 			else:
 				curGrade = "N"
-		if(gbook[j][22]=="SF" and net[j][10]=="N"): 
+		if(gbook[j][3+numAssign]=="SF" and net[j][10]=="N"): 
 			if( letterNames.index(curGrade) <= letterNames.index(SFmin) ):
 				curGrade = "S"
 			else:
 				curGrade = "F"
-		if(gbook[j][23]=="C10"):
+		if(gbook[j][4+numAssign]=="C10"):
 			#print this in C10 file
 			fc10.write( gbook[j][1] + " , " + curGrade + " , " + gbook[j][0] +  " , " + net[j][6] + " , " + net[j][7] + '\n' )
 			c10Printed = c10Printed + 1
-		elif(gbook[j][23]=="LS"):
+		elif(gbook[j][4+numAssign]=="LS"):
 			#print this in LS file
 			flas.write( gbook[j][1] + " , " + curGrade + " , " + gbook[j][0] +  " , " + net[j][6] + " , " + net[j][7] + '\n' )
 			lasPrinted = lasPrinted + 1

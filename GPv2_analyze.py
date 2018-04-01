@@ -48,8 +48,8 @@ def DisplayStudent(curID,gbook,net):
 			print("Section: Not Enrolled In A Section")
 		else:
 			print("Section: " + str(gbook[curLine][2]) + " (GSI: " + GSInames[int(gbook[curLine][2])-101] + ")" ) 
-		print("Taking class: " + str(gbook[curLine][22]) )
-		print("Enrolled in: " + str(gbook[curLine][23]))
+		print("Taking class: " + str(gbook[curLine][3+numAssign]) )
+		print("Enrolled in: " + str(gbook[curLine][4+numAssign]))
 		print("Any prorates? : " + str(net[curLine][9]))
 		print(" ")
 		print("Raw Scores:")
@@ -101,8 +101,8 @@ def PrintStats(gbook,net):
 	PNPnum = 0
 	SFnum = 0
 	for j in range(0,len(net)):
-		if(gbook[j][22]=="PN"): PNPnum = PNPnum + 1
-		elif(gbook[j][22]=="SF"): SFnum = SFnum+1 
+		if(gbook[j][3+numAssign]=="PN"): PNPnum = PNPnum + 1
+		elif(gbook[j][3+numAssign]=="SF"): SFnum = SFnum+1 
 		
 	print("Number of students in the coures: " + str(Nstud) + '\n')
 	print("Number of students taking PNP: " + str(PNPnum) + ' (' + str(float(PNPnum)/Nstudf*100) + '%)')
@@ -240,7 +240,7 @@ def DisplayRoster(gbook,net):
 		print("\nHere are the students no enrolled in a discussion section")
 		for j in range(0,len(net)):
 			if( gbook[j][2]=="No Section"):
-				pme = gbook[j][0] + " (" + gbook[j][1] + " ; " + str(gbook[j][22]) + ")"
+				pme = gbook[j][0] + " (" + gbook[j][1] + " ; " + str(gbook[j][3+numAssign]) + ")"
 				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + " ; " + str(PointsToNext(j,gbook,net)) + " to next grade)" 
 				print( pme )
 				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
@@ -251,7 +251,7 @@ def DisplayRoster(gbook,net):
 		print("\nHere are the students in section " + str(curSec) + " (GSI: " + GSInames[curSec-101] + ")")
 		for j in range(0,len(net)):
 			if( gbook[j][2]==str(curSec) ):
-				pme = gbook[j][0] + " (" + gbook[j][1] + " ; " + str(gbook[j][22]) + ")"
+				pme = gbook[j][0] + " (" + gbook[j][1] + " ; " + str(gbook[j][3+numAssign]) + ")"
 				if(pgrade): pme = pme + " has " + str(net[j][6]) + " out of " + str(net[j][7]) + " course points. (" + net[j][8] + " ; " + str(PointsToNext(j,gbook,net)) + " to next grade)"
 				print(pme)
 				if(net[j][10]=='Y'): print("       ^-- Final grade has been overwritten.")
@@ -352,8 +352,8 @@ def PrintInfo(gbook,net,numStudents):
 	PNPnum = 0
 	SFnum = 0
 	for j in range(0,len(net)):
-		if(gbook[j][22]=="PN"): PNPnum = PNPnum + 1
-		elif(gbook[j][22]=="SF"): SFnum = SFnum+1 
+		if(gbook[j][3+numAssign]=="PN"): PNPnum = PNPnum + 1
+		elif(gbook[j][3+numAssign]=="SF"): SFnum = SFnum+1 
 	print("Here's some course info.")
 	print("")
 	print("There are " + str(numStudents[0]+numStudents[1]) + " students in the course.")

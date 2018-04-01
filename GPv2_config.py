@@ -131,6 +131,8 @@ numHW = cHWe-cHWs+1
 numQZ = cQZe-cQZs+1
 numLB = cLBe-cLBs+1
 numMT = cMTe-cMTs+1
+# The total number of assignments
+numAssign = numHW+numQZ+numLB+numMT+2
 #
 # OK, now we need to read in information from the gradeTypeXXXFiles.
 #
